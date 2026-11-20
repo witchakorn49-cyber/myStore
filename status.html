@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ไฟสถานะระบบร้านยาจำลอง</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f6f7f9; --card: #ffffff; --text: #1d2330; --muted: #5b6475; --line: #dfe3ea;
+    --ok: #16794c; --ok-bg: #e5f5ec; --bad: #b42318; --bad-bg: #fdecea;
+    --wait: #8a94a6; --wait-bg: #eef0f4; --warn: #9a5b00; --warn-bg: #fff4e0; --accent: #2f5bd3;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--text);
+         font: 16px/1.6 'Noto Sans Thai', system-ui, sans-serif; }
+  main { max-width: 760px; margin: 0 auto; padding: 24px 16px 48px; }
+  h1 { font-size: 24px; margin: 0 0 4px; }
+  .sub { color: var(--muted); margin: 0 0 20px; }
+  .banner { padding: 12px 16px; border-radius: 10px; margin-bottom: 16px; display: none; }
+  .banner.show { display: block; }
+  .banner.warn { background: var(--warn-bg); color: var(--warn); border: 1px solid #f1c27d; }
+  .panel { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 16px; margin-bottom: 16px; }
+  .row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+  label { font-weight: 600; }
+  input[type=password] { flex: 1; min-width: 200px; font: inherit; padding: 8px 12px;
+         border: 1px solid var(--line); border-radius: 8px; }
+  button { font: inherit; font-weight: 600; padding: 8px 18px; border-radius: 8px; border: 1px solid var(--accent);
+           background: var(--accent); color: #fff; cursor: pointer; }
+  button.ghost { background: #fff; color: var(--accent); }
+  button:disabled { opacity: .5; cursor: wait; }
+  .note { color: var(--muted); font-size: 14px; margin: 8px 0 0; }
+  ol.checks { list-style: none; padding: 0; margin: 0; }
+  .check { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px;
+           margin-bottom: 10px; display: grid; grid-template-columns: 28px 1fr auto; gap: 4px 12px; align-items: start; }
+  .lamp { width: 22px; height: 22px; border-radius: 50%; margin-top: 3px; background: var(--wait); border: 3px solid var(--wait-bg); }
+  .check.ok .lamp { background: var(--ok); border-color: var(--ok-bg); }
+  .check.bad .lamp { background: var(--bad); border-color: var(--bad-bg); }
+  .check.skip .lamp { background: #fff; border-color: var(--wait); }
+  .title { font-weight: 600; }
+  .badge { font-size: 14px; font-weight: 600; padding: 2px 10px; border-radius: 999px; background: var(--wait-bg); color: var(--muted); white-space: nowrap; }
+  .check.ok .badge { background: var(--ok-bg); color: var(--ok); }
+  .check.bad .badge { background: var(--bad-bg); color: var(--bad); }
+  .detail, .hint { grid-column: 2 / 4; font-size: 15px; }
+  .detail { color: var(--muted); }
+  .hint { color: var(--bad); display: none; }
+  .check.bad .hint { display: block; }
+  .summary { font-weight: 600; font-size: 18px; margin: 4px 0 0; }
+  code { font-family: ui-monospace, Consolas, monospace; font-size: 14px; background: var(--wait-bg); padding: 1px 5px; border-radius: 4px; }
+</style>
+</head>
+<body>
+<main>
+  <h1>ไฟสถานะระบบร้านยาจำลอง</h1>
+  <p class="sub">ตรวจว่า API ทั้ง 3 ไฟล์บน Vercel เชื่อมกับ Supabase ได้ครบ ทุกการตรวจ<strong>ไม่เปลี่ยนข้อมูล</strong>ในฐานข้อมูล</p>
+
+  <div id="where" class="banner warn"></div>
+
+  <section class="panel">
+    <div class="row">
+      <label for="code">รหัสผู้ดูแล</label>
+      <input id="code" type="password" autocomplete="off" placeholder="ใช้เฉพาะไฟดวงที่ 5 เว้นว่างได้">
+    </div>
+    <p class="note">รหัสถูกส่งไปที่ <code>/api/admin</code> ทาง header เท่านั้น หน้านี้ไม่บันทึกรหัสไว้ที่ใด ปิดแท็บแล้วรหัสหายไป</p>
+    <div class="row" style="margin-top:12px">
+      <button id="run">ตรวจทั้งหมด</button>
+      <span id="summary" class="summary"></span>
+    </div>
+  </section>
+
+  <ol class="checks" id="checks"></ol>
+</main>
+
+<script>
+// ---------- รายการไฟ ----------
+const CHECKS = [
+  { id: 'data',     title: '1. อ่านข้อมูลได้ (api/data.js)' },
+  { id: 'catalog',  title: '2. มีบัญชียาจาก v_drug_catalog (crud.sql)' },
+  { id: 'dispense', title: '3. มีไฟล์ขายยา (api/dispense.js)' },
+  { id: 'guard',    title: '4. รหัสผิดต้องถูกปฏิเสธ (api/admin.js)' },
+  { id: 'admin',    title: '5. รหัสถูกและเชื่อมฐานข้อมูลได้ (ADMIN_CODE + secret key)' },
+];
+
+const list = document.getElementById('checks');
+for (const c of CHECKS) {
+  const li = document.createElement('li');
+  li.className = 'check';
+  li.id = 'c-' + c.id;
+  li.innerHTML = '<span class="lamp" aria-hidden="true"></span><span class="title"></span>' +
+                 '<span class="badge">ยังไม่ตรวจ</span><span class="detail"></span><span class="hint"></span>';
+  li.querySelector('.title').textContent = c.title;
+  list.appendChild(li);
+}
+
+function setLamp(id, state, detail, hint) {
+  const li = document.getElementById('c-' + id);
+  li.className = 'check ' + state;
+  li.querySelector('.badge').textContent =
+    { ok: 'ผ่าน', bad: 'ไม่ผ่าน', skip: 'ข้าม', wait: 'กำลังตรวจ…' }[state] || state;
+  li.querySelector('.detail').textContent = detail || '';
+  li.querySelector('.hint').textContent = hint ? 'วิธีแก้: ' + hint : '';
+}
+
+// เรียก API แล้วคืน { status, json, isHtml } โดยไม่โยน error
+async function call(path, opt) {
+  try {
+    const r = await fetch(path, { cache: 'no-store', ...opt });
+    const text = await r.text();
+    let json = null;
+    try { json = JSON.parse(text); } catch {}
+    return { status: r.status, json, isHtml: !json && /<html|<!doctype/i.test(text) };
+  } catch (e) {
+    return { status: 0, json: null, error: String(e) };
+  }
+}
+
+const NOT_DEPLOYED = 'ไม่พบ API ที่ path นี้ ตรวจว่าเปิดหน้านี้บนลิงก์ vercel.app และไฟล์อยู่ในโฟลเดอร์ api/ ที่รากของ repo';
+
+// ---------- ไฟแต่ละดวง ----------
+async function checkData() {
+  const r = await call('/api/data');
+  if (r.status === 200 && r.json && r.json.drugs && r.json.stock && r.json.dispense_log) {
+    const m = r.json.drugs.meta || {};
+    setLamp('data', 'ok', `ยา ${r.json.drugs.items.length} รายการ · ล็อต ${r.json.stock.items.length} ล็อต · ` +
+      `รายการจ่าย ${r.json.dispense_log.items.length} รายการ · วันอ้างอิง ${m.as_of || '-'}`);
+    return r.json;
+  }
+  if (r.status === 404 || r.isHtml) setLamp('data', 'bad', `ได้ ${r.status || 'เชื่อมต่อไม่ได้'}`, NOT_DEPLOYED);
+  else if (r.status === 500) setLamp('data', 'bad', (r.json && r.json.error) || 'ได้ 500',
+    'เพิ่ม SUPABASE_URL และ SUPABASE_PUBLISHABLE_KEY ใน Vercel แล้ว Redeploy');
+  else if (r.status === 502) setLamp('data', 'bad', (r.json && r.json.error) || 'ได้ 502',
+    'ตรวจค่า SUPABASE_URL และ publishable key (ขึ้นต้น sb_publishable_) และรัน schema → seed → sell_drug → crud ใน Supabase แล้วหรือยัง');
+  else setLamp('data', 'bad', `ได้ ${r.status || 'เชื่อมต่อไม่ได้'} ${r.error || ''}`, 'ตรวจ Logs ของ deploy ใน Vercel');
+  return null;
+}
+
+function checkCatalog(data) {
+  if (!data) return setLamp('catalog', 'skip', 'ข้ามเพราะไฟดวงที่ 1 ยังไม่ผ่าน');
+  const cat = data.catalog;
+  if (!cat && data.catalog_error) return setLamp('catalog', 'bad', data.catalog_error,
+    'เปิด Supabase SQL Editor แล้วรัน crud.sql (ต่อจาก schema → seed → sell_drug)');
+  if (!cat) return setLamp('catalog', 'bad', 'ไม่มีก้อน catalog ในผลของ /api/data',
+    'ใช้ api/data.js ฉบับที่เพิ่ม catalog (ไม่ใช่แม่แบบวันที่ 2) แล้ว push ใหม่');
+  const items = cat.items || [];
+  const hasCols = items.length && ['is_active', 'lot_count', 'usable_qty'].every(k => k in items[0]);
+  if (!hasCols) return setLamp('catalog', 'bad', 'catalog ไม่มีช่อง is_active / lot_count / usable_qty',
+    'รัน crud.sql ใน Supabase SQL Editor');
+  const inactive = items.filter(x => x.is_active === false).length;
+  const noLot = items.filter(x => x.lot_count === 0).length;
+  setLamp('catalog', 'ok', `ยาทั้งหมด ${items.length} รายการ · ยังไม่มีล็อต ${noLot} · ปิดใช้งาน ${inactive}`);
+}
+
+async function checkDispense() {
+  // GET ต้องได้ 405 (รับเฉพาะ POST) แปลว่าไฟล์อยู่และทำงาน โดยไม่ขายยาจริง
+  const r = await call('/api/dispense');
+  if (r.status === 405) return setLamp('dispense', 'ok', 'ตอบ 405 ตามที่ควร (รับเฉพาะ POST) ไม่มีการขายเกิดขึ้น');
+  if (r.status === 404 || r.isHtml) return setLamp('dispense', 'bad', `ได้ ${r.status}`, NOT_DEPLOYED);
+  setLamp('dispense', 'bad', `ได้ ${r.status || 'เชื่อมต่อไม่ได้'}`, 'ตรวจว่า api/dispense.js เป็นฉบับที่ส่งให้ และ Logs ใน Vercel');
+}
+
+async function checkGuard() {
+  const wrong = 'wrong-' + Math.random().toString(36).slice(2);
+  const r = await call('/api/admin', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'x-admin-code': wrong },
+    body: JSON.stringify({ action: 'dispense_void' }),
+  });
+  if (r.status === 401) return setLamp('guard', 'ok', 'รหัสผิดได้ 401 — ประตูล็อกอยู่');
+  if (r.status === 404 || r.isHtml) return setLamp('guard', 'bad', `ได้ ${r.status}`, NOT_DEPLOYED);
+  if (r.status === 500) return setLamp('guard', 'bad', (r.json && r.json.message) || 'ได้ 500',
+    'เพิ่ม SUPABASE_URL, SUPABASE_SECRET_KEY และ ADMIN_CODE ใน Vercel ให้ครบ แล้ว Redeploy');
+  setLamp('guard', 'bad', `ได้ ${r.status} ซึ่งไม่ควรเกิด`, 'ตรวจว่า api/admin.js เป็นฉบับที่ส่งให้ ไม่ได้ถูกแก้ส่วนตรวจรหัส');
+}
+
+async function checkAdmin(guardOk) {
+  const code = document.getElementById('code').value;
+  if (!code) return setLamp('admin', 'skip', 'ยังไม่ได้กรอกรหัสผู้ดูแล กรอกแล้วกดตรวจอีกครั้ง');
+  if (!guardOk) return setLamp('admin', 'skip', 'ข้ามเพราะไฟดวงที่ 4 ยังไม่ผ่าน');
+  // ขอยกเลิก D0014 ซึ่งมีอุบัติการณ์อ้างอยู่ ฐานข้อมูลต้องปฏิเสธเสมอ จึงไม่มีข้อมูลเปลี่ยน
+  const r = await call('/api/admin', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'x-admin-code': code },
+    body: JSON.stringify({ action: 'dispense_void', dispense_id: 'D0014', reason: 'ตรวจไฟสถานะ', by: 'STATUS' }),
+  });
+  const msg = (r.json && r.json.message) || '';
+  if (r.status === 400 && msg.includes('อุบัติการณ์'))
+    return setLamp('admin', 'ok', 'ฐานข้อมูลตอบ: ' + msg);
+  if (r.status === 401) return setLamp('admin', 'bad', 'รหัสผู้ดูแลไม่ตรงกับ ADMIN_CODE ใน Vercel',
+    'พิมพ์รหัสใหม่ ถ้ายังไม่ผ่าน ลบตัวแปร ADMIN_CODE แล้วพิมพ์ใหม่ (ระวังช่องว่างหรือขึ้นบรรทัดใหม่) และ Redeploy');
+  if (r.status === 502) return setLamp('admin', 'bad', msg || 'ได้ 502',
+    'รัน crud.sql ใน Supabase แล้วหรือยัง และตรวจ SUPABASE_SECRET_KEY (ขึ้นต้น sb_secret_)');
+  if (r.status === 400 && msg.includes('ไม่พบรายการจ่าย'))
+    return setLamp('admin', 'bad', msg, 'ข้อมูลในฐานข้อมูลไม่ใช่ชุดเริ่มต้น ให้ reset ด้วย schema → seed → sell_drug → crud');
+  if (r.status === 200) return setLamp('admin', 'bad', 'D0014 ถูกยกเลิกได้ ซึ่งไม่ควรเกิด',
+    'ฐานข้อมูลไม่มีกฎห้ามยกเลิกรายการที่มีอุบัติการณ์ รัน crud.sql ฉบับล่าสุด แล้ว reset ข้อมูล');
+  setLamp('admin', 'bad', `ได้ ${r.status} ${msg}`, 'ตรวจ Logs ของ deploy ใน Vercel');
+}
+
+// ---------- ปุ่มตรวจ ----------
+const runBtn = document.getElementById('run');
+runBtn.addEventListener('click', async () => {
+  runBtn.disabled = true;
+  document.getElementById('summary').textContent = '';
+  CHECKS.forEach(c => setLamp(c.id, 'wait'));
+  const data = await checkData();
+  checkCatalog(data);
+  await checkDispense();
+  await checkGuard();
+  await checkAdmin(document.getElementById('c-guard').classList.contains('ok'));
+  const ok = document.querySelectorAll('.check.ok').length;
+  document.getElementById('summary').textContent =
+    ok === CHECKS.length ? 'ผ่านครบ 5 ดวง พร้อมสร้าง admin.html' : `ผ่าน ${ok} จาก ${CHECKS.length} ดวง`;
+  runBtn.disabled = false;
+});
+document.getElementById('code').addEventListener('keydown', e => { if (e.key === 'Enter') runBtn.click(); });
+
+// ---------- เตือนเมื่อเปิดผิดที่ ----------
+const where = document.getElementById('where');
+const h = location.hostname;
+if (location.protocol === 'file:') {
+  where.textContent = 'หน้านี้ถูกเปิดจากไฟล์ในเครื่อง ตรวจ API ไม่ได้ ให้ push ขึ้น GitHub แล้วเปิดผ่านลิงก์ https://<ชื่อโปรเจกต์>.vercel.app/status.html';
+  where.classList.add('show');
+} else if (h.endsWith('github.io')) {
+  where.textContent = 'หน้านี้เปิดจาก GitHub Pages ซึ่งไม่รันไฟล์ในโฟลเดอร์ api/ ไฟจะเป็นสีแดงทั้งหมด ให้เปิดผ่านลิงก์ vercel.app แทน';
+  where.classList.add('show');
+} else if (h === '127.0.0.1' || h === 'localhost') {
+  where.textContent = 'หน้านี้เปิดในเครื่อง ถ้าใช้ Live Server ไฟจะแดงเพราะไม่มี API ให้เปิดผ่านลิงก์ vercel.app (ถ้าใช้ vercel dev กดตรวจทั้งหมดได้ตามปกติ)';
+  where.classList.add('show');
+} else {
+  runBtn.click();  // เปิดบน Vercel แล้วตรวจดวง 1-4 ให้ทันที
+}
+</script>
+</body>
+</html>
