@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#ffffff">
+  <meta name="description" content="หน้าแรกสำหรับเข้าถึงระบบร้านยาจำลองใน Workshop">
+  <title>Pharmacy Workshop | หน้าแรก</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #ffffff;
+      --surface: #f6f7f6;
+      --surface-hover: #edf1ed;
+      --muted: #535c56;
+      --border: #d9ded9;
+      --green: #16883a;
+      --green-cta: #1ed760;
+      --text: #19231c;
+      --icon-bg: #e5eae6;
+      --disclaimer-bg: #f2f6f2;
+      --disclaimer-text: #27372c;
+      --focus: #16883a;
+    }
+    :root[data-theme="dark"] {
+      color-scheme: dark;
+      --bg: #121212;
+      --surface: #181818;
+      --surface-hover: #252525;
+      --muted: #b3b3b3;
+      --border: #3f3f3f;
+      --green: #1ed760;
+      --green-cta: #1ed760;
+      --text: #ffffff;
+      --icon-bg: #303030;
+      --disclaimer-bg: #202020;
+      --disclaimer-text: #e7e7e7;
+      --focus: #1ed760;
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    html { font-size: 16px; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      min-height: 100dvh;
+      background: var(--bg);
+      color: var(--text);
+      font-family: "Noto Sans Thai", Tahoma, "Leelawadee UI", sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+    .shell {
+      width: min(100% - 36px, 780px);
+      margin: 0 auto;
+      padding: clamp(36px, 7vw, 72px) 0 28px;
+    }
+    .topbar { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+    .theme-control { display: inline-flex; align-items: center; gap: 10px; cursor: pointer; font-size: 14px; font-weight: 700; user-select: none; }
+    .theme-control input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+    .switch-track { width: 52px; height: 30px; padding: 3px; display: inline-flex; align-items: center; border-radius: 9999px; background: #c5ccc6; transition: background .18s; }
+    .switch-thumb { display: block; height: 24px; width: 24px; border-radius: 50%; background: #fff; box-shadow: 0 1px 4px #0003; transition: transform .18s; }
+    .theme-control input:checked + .switch-track { background: #16883a; }
+    .theme-control input:checked + .switch-track .switch-thumb { transform: translateX(22px); }
+    .theme-control input:focus-visible + .switch-track { outline: 3px solid var(--focus); outline-offset: 3px; }
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+    }
+    .eyebrow::before { content: ""; width: 9px; height: 9px; border-radius: 50%; background: var(--green); }
+    h1 { margin: 12px 0 6px; font-size: clamp(28px, 5vw, 42px); font-weight: 700; line-height: 1.3; letter-spacing: -.02em; }
+    .lead { margin: 0 0 30px; color: var(--muted); max-width: 560px; }
+    .section-title { margin: 0 0 14px; font-size: 18px; font-weight: 700; }
+    .menu { display: grid; grid-template-columns: 1fr; gap: 12px; }
+    .menu-link {
+      display: flex;
+      gap: 15px;
+      align-items: center;
+      width: 100%;
+      min-height: 88px;
+      padding: 17px 19px;
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      background: var(--surface);
+      color: inherit;
+      text-decoration: none;
+      transition: background .18s ease, border-color .18s ease, transform .18s ease;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .menu-link:hover { background: var(--surface-hover); border-color: var(--muted); transform: translateY(-1px); }
+    .menu-link:focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; }
+    .menu-link:active { transform: scale(.995); }
+    .menu-link:first-child { border-color: var(--green); }
+    .menu-icon {
+      display: grid;
+      place-items: center;
+      width: 52px;
+      height: 52px;
+      flex: 0 0 52px;
+      border-radius: 50%;
+      background: var(--icon-bg);
+      color: var(--text);
+      font-size: 22px;
+      font-weight: 700;
+      line-height: 1;
+    }
+    .menu-link:first-child .menu-icon { background: var(--green-cta); color: #000; }
+    .menu-copy { min-width: 0; flex: 1; }
+    .menu-title { display: block; font-size: 18px; font-weight: 700; line-height: 1.45; }
+    .menu-desc { display: block; margin-top: 3px; color: var(--muted); font-size: 16px; line-height: 1.5; }
+    .menu-arrow { flex: 0 0 auto; margin-left: 2px; font-size: 22px; color: var(--muted); }
+    .menu-link:first-child .menu-arrow { color: var(--green); }
+    .disclaimer {
+      margin-top: 26px;
+      padding: 16px 18px;
+      background: var(--disclaimer-bg);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      color: var(--disclaimer-text);
+      font-weight: 700;
+    }
+    footer { margin-top: 23px; color: var(--muted); font-size: 13px; text-align: center; }
+    @media (min-width: 650px) {
+      .shell { padding-top: 70px; }
+      .menu { gap: 14px; }
+      .menu-link { min-height: 96px; padding: 20px 24px; }
+    }
+    @media (max-width: 390px) {
+      .shell { width: calc(100% - 28px); }
+      .menu-link { gap: 11px; padding: 14px 12px; }
+      .menu-icon { width: 44px; height: 44px; flex-basis: 44px; font-size: 19px; }
+      .menu-title { font-size: 17px; }
+      .menu-arrow { font-size: 19px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .menu-link, .switch-track, .switch-thumb { transition: none; }
+    }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <header>
+      <div class="topbar">
+        <div class="eyebrow">PHARMACY WORKSHOP</div>
+        <label class="theme-control" for="darkmode-toggle">
+          <span>Dark mode</span>
+          <input id="darkmode-toggle" type="checkbox" role="switch" aria-label="เปิดหรือปิดโหมดมืด" aria-checked="false">
+          <span class="switch-track" aria-hidden="true"><span class="switch-thumb"></span></span>
+        </label>
+      </div>
+      <h1>ระบบร้านยาจำลอง</h1>
+      <p class="lead">เลือกเมนูเพื่อเริ่มใช้งานระบบขายยา จัดการคลังยา และติดตามสถานะการทำงาน</p>
+    </header>
+
+    <nav aria-labelledby="menu-heading">
+      <h2 class="section-title" id="menu-heading">เมนูหลัก</h2>
+      <div class="menu" id="menu-list"></div>
+    </nav>
+
+    <aside class="disclaimer" role="note">ข้อมูลทั้งหมดเป็นข้อมูลจำลอง ห้ามใส่ชื่อผู้ป่วยจริง</aside>
+    <footer>Pharmacy Workshop · สำหรับการฝึกปฏิบัติเท่านั้น</footer>
+  </main>
+
+  <script>
+    "use strict";
+
+    // เพิ่มหรือลบเมนูได้ด้วยการแก้รายการเพียงบรรทัดเดียวในอาร์เรย์นี้
+    const LINKS = [
+      { href: "pos.html", title: "หน้าขายยา", desc: "เลือกยา กรอกจำนวน บันทึกการจ่ายยา" },
+      { href: "admin.html", title: "จัดการระบบ (ผู้ดูแล)", desc: "บัญชียา คลังรายล็อต รายการจ่าย ต้องใช้รหัสผู้ดูแล" },
+      { href: "dashboard.html", title: "Dashboard คลังยา", desc: "ภาพรวมคลัง ล็อตใกล้หมดอายุ ยาต่ำกว่าจุดสั่งซื้อ" },
+      { href: "status.html", title: "ตรวจสถานะระบบ", desc: "ตรวจว่าการเชื่อมต่อแต่ละส่วนทำงานปกติ" }
+    ];
+
+    // เริ่มต้นด้วยโหมดสว่างเสมอ และสลับธีมได้โดยไม่ต้องโหลดหน้าใหม่
+    const themeToggle = document.getElementById("darkmode-toggle");
+    const themeMeta = document.querySelector('meta[name="theme-color"]');
+    themeToggle.addEventListener("change", () => {
+      const dark = themeToggle.checked;
+      document.documentElement.dataset.theme = dark ? "dark" : "light";
+      themeToggle.setAttribute("aria-checked", String(dark));
+      themeMeta.content = dark ? "#121212" : "#ffffff";
+    });
+
+    const icons = ["+", "⚙", "▥", "✓"];
+    const menu = document.getElementById("menu-list");
+
+    LINKS.forEach((item, index) => {
+      const link = document.createElement("a");
+      link.className = "menu-link";
+      link.href = item.href;
+
+      const icon = document.createElement("span");
+      icon.className = "menu-icon";
+      icon.setAttribute("aria-hidden", "true");
+      icon.textContent = icons[index] || "↗";
+
+      const copy = document.createElement("span");
+      copy.className = "menu-copy";
+
+      const title = document.createElement("span");
+      title.className = "menu-title";
+      title.textContent = item.title;
+
+      const desc = document.createElement("span");
+      desc.className = "menu-desc";
+      desc.textContent = item.desc;
+
+      const arrow = document.createElement("span");
+      arrow.className = "menu-arrow";
+      arrow.setAttribute("aria-hidden", "true");
+      arrow.textContent = "→";
+
+      copy.append(title, desc);
+      link.append(icon, copy, arrow);
+      menu.appendChild(link);
+    });
+  </script>
+</body>
+</html>
