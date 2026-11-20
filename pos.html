@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#ffffff" id="theme-color">
+<title>หน้าขายยา | ร้านยาจำลอง</title>
+<style>
+:root{color-scheme:light;--bg:#fff;--surface:#f6f7f6;--card:#fff;--sub:#f0f3f0;--hover:#e8eee9;--line:#d8ded9;--text:#19231c;--muted:#535c56;--accent:#16883a;--cta:#1ed760;--cta-text:#071c0c;--orange:#9d5700;--orange-bg:#fff2d8;--red:#b3263a;--red-bg:#fff0f1;--success-bg:#e8f8ed;--success-text:#116c32;--shadow:0 8px 28px rgba(14,34,20,.07);--focus:#16883a}
+:root[data-theme="dark"]{color-scheme:dark;--bg:#121212;--surface:#181818;--card:#181818;--sub:#1f1f1f;--hover:#252525;--line:#4d4d4d;--text:#fff;--muted:#b3b3b3;--accent:#1ed760;--cta:#1ed760;--cta-text:#000;--orange:#ffa42b;--orange-bg:#342719;--red:#f3727f;--red-bg:#371d24;--success-bg:#163522;--success-text:#1ed760;--shadow:0 8px 24px rgba(0,0,0,.3);--focus:#1ed760}
+*{box-sizing:border-box}html{font-size:16px}body{margin:0;background:var(--bg);color:var(--text);font:400 16px/1.6 'Noto Sans Thai',Tahoma,'Leelawadee UI',system-ui,sans-serif;min-height:100vh}button,input,select{font:inherit}button,a,input,select{-webkit-tap-highlight-color:transparent}a{color:inherit}button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid var(--focus);outline-offset:3px}h1,h2,h3,p{margin:0}h1{font-size:clamp(23px,3vw,28px);line-height:1.4}h2{font-size:20px;line-height:1.4}h3{font-size:17px}small{font-size:14px}.muted{color:var(--muted)}.shell{width:min(1180px,calc(100% - 32px));margin:auto;padding:24px 0 40px}.top{display:flex;align-items:flex-start;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-bottom:20px}.heading{display:grid;gap:9px}.back{display:inline-flex;align-items:center;gap:8px;text-decoration:none;font-weight:700;border:1px solid var(--line);border-radius:9999px;padding:7px 16px;background:var(--surface);width:fit-content;min-height:42px}.back:hover{background:var(--hover)}.heading p{color:var(--muted)}.topright{display:flex;flex-direction:column;align-items:flex-end;gap:10px}.switch-label{display:inline-flex;align-items:center;gap:10px;font-weight:700;cursor:pointer;user-select:none}.switch-label input{position:absolute;opacity:0;width:1px;height:1px}.switch{width:52px;height:30px;border-radius:999px;background:#ccd3cd;border:1px solid var(--line);position:relative;transition:background .18s}.switch:after{content:'';position:absolute;left:3px;top:3px;width:22px;height:22px;background:#fff;border-radius:50%;box-shadow:0 1px 4px #0004;transition:transform .18s}:root[data-theme="dark"] .switch{background:#1ed760}:root[data-theme="dark"] .switch:after{transform:translateX(22px);background:#121212}.switch-label input:focus-visible+.switch{outline:3px solid var(--focus);outline-offset:3px}.asof{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--line);background:var(--sub);border-radius:999px;padding:4px 12px;font-size:14px}.notice{border:1px solid var(--line);border-radius:10px;padding:11px 15px;margin-bottom:18px;background:var(--surface);font-size:15px}.notice.warn{border-color:var(--orange);background:var(--orange-bg);color:var(--text)}.notice.err{border-color:var(--red);background:var(--red-bg)}.notice.live{border-color:var(--accent)}.notice strong{font-weight:700}.layout{display:grid;grid-template-columns:minmax(0,1.17fr) minmax(315px,.83fr);gap:18px;align-items:start}.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px;box-shadow:var(--shadow)}.card-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px}.pill{border-radius:999px;padding:3px 12px;font-weight:700;font-size:14px;border:1px solid var(--line);color:var(--muted)}.pill.warning{color:var(--orange);border-color:var(--orange);background:var(--orange-bg)}.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}.field{display:flex;flex-direction:column;gap:7px;min-width:0}.field.wide{grid-column:1/-1}label{font-weight:700}.hint{color:var(--muted);font-size:14px}.input{width:100%;border:1px solid var(--line);background:var(--sub);color:var(--text);border-radius:10px;padding:12px 14px;min-height:53px}.input::placeholder{color:var(--muted)}.input:disabled{opacity:.6;cursor:not-allowed}.select-wrap{position:relative}.select-wrap select{padding-right:36px}.selected{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:15px;margin-top:17px;display:grid;gap:8px}.selected-head{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}.selected .qty{font-weight:700;font-size:clamp(24px,3.5vw,32px);line-height:1.2;font-variant-numeric:tabular-nums}.selected .name{font-weight:700}.selected .meta{color:var(--muted);font-size:14px}.row{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}.btn{border:1px solid var(--line);background:var(--sub);color:var(--text);padding:11px 20px;border-radius:999px;font-weight:700;min-height:52px;cursor:pointer;transition:background .15s,transform .1s}.btn:hover:not(:disabled){background:var(--hover)}.btn:active:not(:disabled){transform:scale(.98)}.btn.primary{background:var(--cta);color:var(--cta-text);border-color:transparent}.btn.primary:hover:not(:disabled){filter:brightness(.96);background:var(--cta)}.btn:disabled{opacity:.5;cursor:not-allowed}.submit-row{margin-top:21px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}.submit-row .primary{width:100%;min-height:60px;font-size:18px}.result{border-radius:12px;padding:16px 18px;border:1px solid var(--line);margin-top:18px}.result.good{border-color:var(--accent);background:var(--success-bg)}.result.bad{border-color:var(--red);background:var(--red-bg)}.result h3{margin-bottom:7px}.result.good h3{color:var(--success-text)}.result.bad h3{color:var(--red)}.result ul{padding-left:23px;margin:8px 0}.result .sum{font-weight:700;margin-top:8px}.recent{margin-top:18px}.table-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:10px}.table{border-collapse:collapse;width:100%;font-size:15px;white-space:nowrap}.table th{text-align:left;color:var(--muted);background:var(--sub);font-size:14px;font-weight:700}.table td,.table th{padding:12px 13px;border-bottom:1px solid var(--line)}.table tr:last-child td{border-bottom:none}.table tbody tr:hover{background:var(--surface)}.table td.num,.table th.num{text-align:right;font-variant-numeric:tabular-nums}.empty{color:var(--muted);padding:18px 0}.catalog-list{max-height:415px;overflow:auto;display:grid;gap:8px;padding-right:3px}.drug-option{display:flex;text-align:left;justify-content:space-between;align-items:center;gap:12px;width:100%;border:1px solid var(--line);border-radius:10px;background:var(--surface);color:var(--text);padding:13px 14px;cursor:pointer;min-height:72px}.drug-option:hover{background:var(--hover)}.drug-option[aria-pressed="true"]{border-color:var(--accent);box-shadow:inset 3px 0 var(--accent)}.drug-option .name{display:block;font-weight:700}.drug-option .desc{display:block;color:var(--muted);font-size:14px}.drug-option .amount{font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap}.catalog-tools{margin-bottom:12px}.catalog-tools input{min-height:49px}.section-note{font-size:14px;color:var(--muted);margin-top:9px}.footer{color:var(--muted);font-size:14px;margin-top:25px;padding-top:15px;border-top:1px solid var(--line)}[hidden]{display:none!important}@media(max-width:800px){.layout{grid-template-columns:1fr}.topright{align-items:flex-start}.card{padding:18px}}@media(max-width:480px){.shell{width:calc(100% - 24px);padding-top:16px}.form-grid{grid-template-columns:1fr}.field.wide{grid-column:auto}.card{padding:16px}.top{gap:14px}.topright{width:100%;flex-direction:row;align-items:center;justify-content:space-between;flex-wrap:wrap}.table td,.table th{padding:10px 9px}}
+</style>
+</head>
+<body>
+<main class="shell">
+  <header class="top">
+    <div class="heading">
+      <a class="back" href="./index.html" aria-label="กลับหน้าหลัก">← กลับหน้าหลัก</a>
+      <div><h1>หน้าขายยา</h1><p>เลือกยา กรอกจำนวน และบันทึกการจ่ายยา</p></div>
+    </div>
+    <div class="topright">
+      <label class="switch-label" for="dark-toggle"><span>Dark Mode</span><input type="checkbox" id="dark-toggle" role="switch" aria-label="เปิดโหมดมืด"><span class="switch" aria-hidden="true"></span></label>
+      <span class="asof">วันอ้างอิง <strong id="as-of">—</strong></span>
+    </div>
+  </header>
+  <div class="notice" role="note">ข้อมูลจำลอง ห้ามใส่ชื่อผู้ป่วยจริง</div>
+  <div id="source-banner" class="notice" role="status" aria-live="polite">กำลังโหลดข้อมูลจากระบบ…</div>
+  <div class="layout">
+    <section class="card" aria-labelledby="sell-heading">
+      <div class="card-head"><h2 id="sell-heading">บันทึกการจ่ายยา</h2><span class="pill" id="sale-status">กำลังโหลด</span></div>
+      <form id="sale-form" novalidate>
+        <div class="form-grid">
+          <div class="field wide"><label for="sku">ยาที่ต้องการจ่าย</label><select class="input" id="sku" required disabled><option value="">กำลังโหลดรายการยา…</option></select><span class="hint">แสดงเฉพาะยาที่มีล็อตพร้อมจ่าย และยังเปิดใช้งาน</span></div>
+          <div class="field wide"><label for="qty">จำนวนที่ต้องการจ่าย</label><input class="input" id="qty" type="number" min="1" step="1" inputmode="numeric" placeholder="กรอกจำนวนเต็ม เช่น 130" required><span class="hint">ระบบเซิร์ฟเวอร์เป็นผู้ตรวจสอบว่ายอดเพียงพอหรือไม่</span></div>
+          <div class="field"><label for="patient">รหัสผู้ป่วย</label><input class="input" id="patient" type="text" autocomplete="off" spellcheck="false" placeholder="เช่น PT-001" required></div>
+          <div class="field"><label for="pharmacist">รหัสเภสัชกร</label><input class="input" id="pharmacist" type="text" autocomplete="off" spellcheck="false" placeholder="เช่น RX-01" required></div>
+        </div>
+        <div class="selected" aria-live="polite"><div class="selected-head"><div><div class="muted">ยาที่เลือก</div><div class="name" id="selected-name">กรุณาเลือกยา</div></div><span id="reorder-tag" class="pill warning" hidden>ต่ำกว่าจุดสั่งซื้อ</span></div><div class="row"><div><div class="meta">ยอดใช้ได้รวม</div><div class="qty" id="selected-qty">—</div></div><div class="meta" id="selected-reorder"></div></div></div>
+        <div class="submit-row"><button class="btn primary" id="sell-btn" type="submit" disabled>บันทึกการจ่ายยา</button></div>
+      </form>
+      <div id="result" class="result" role="status" aria-live="polite" hidden><h3 id="result-title"></h3><div id="result-body"></div></div>
+    </section>
+    <section class="card" aria-labelledby="inventory-heading"><div class="card-head"><h2 id="inventory-heading">รายการยาพร้อมจ่าย</h2><span class="pill" id="drug-count">0 รายการ</span></div><div class="catalog-tools"><label for="drug-search">ค้นหารหัสหรือชื่อยา</label><input id="drug-search" type="search" class="input" placeholder="เช่น AMOX500 หรือ Amoxicillin" autocomplete="off"></div><div id="drug-list" class="catalog-list"><p class="empty">กำลังโหลดข้อมูล…</p></div><p class="section-note">ยอดใช้ได้ไม่รวมล็อตกักกัน ล็อตตัดจำหน่าย และล็อตหมดอายุ</p></section>
+  </div>
+  <section class="card recent" aria-labelledby="recent-heading"><div class="card-head"><h2 id="recent-heading">รายการจ่ายล่าสุด</h2><button id="reload-btn" type="button" class="btn">↻ โหลดข้อมูลใหม่</button></div><div class="table-wrap"><table class="table"><thead><tr><th>รหัสรายการ</th><th>วันเวลา</th><th>รหัสยา</th><th>ล็อต</th><th class="num">จำนวน</th><th>รหัสผู้ป่วย</th><th>เภสัชกร</th></tr></thead><tbody id="recent-body"><tr><td colspan="7">กำลังโหลดข้อมูล…</td></tr></tbody></table></div><p class="section-note">แสดง 8 รายการล่าสุดเฉพาะประเภท dispense (ไม่รวม void และ return)</p></section>
+  <footer class="footer">ระบบร้านยาจำลองสำหรับ Workshop · ข้อมูลจำลอง ห้ามใส่ชื่อผู้ป่วยจริง</footer>
+</main>
+<script>
+'use strict';
+// ค่าเริ่มต้นเป็น Light Mode; สวิตช์ควบคุมเฉพาะสีของหน้านี้
+const root = document.documentElement;
+const themeToggle = document.getElementById('dark-toggle');
+themeToggle.addEventListener('change', () => {
+  root.dataset.theme = themeToggle.checked ? 'dark' : 'light';
+  document.getElementById('theme-color').content = themeToggle.checked ? '#121212' : '#ffffff';
+});
+const $ = (id) => document.getElementById(id);
+const fmt = (x) => Number(x).toLocaleString('th-TH');
+const txt = (v) => v === null || v === undefined ? '' : String(v);
+const state = {source:'loading',asOf:'',drugs:[],stock:[],log:[],available:[],bySku:new Map(),busy:false,refreshing:false};
+const TIMEOUT_MS = 8000;
+function element(tag, text, className) {
+  const node = document.createElement(tag);
+  if (text !== undefined) node.textContent = txt(text);
+  if (className) node.className = className;
+  return node;
+}
+function usableStock(lot, asOf, fileMode) {
+  return (lot.status === 'active' || (fileMode && (lot.status === undefined || lot.status === null)))
+    && txt(lot.expiry).slice(0,10) >= asOf && Number(lot.qty_on_hand) > 0;
+}
+function validateData(data) {
+  if (!data || typeof data !== 'object') throw new Error('โครงสร้างข้อมูลไม่ถูกต้อง');
+  for (const key of ['drugs','stock','dispense_log']) {
+    if (!data[key] || !Array.isArray(data[key].items)) throw new Error('ข้อมูล '+key+' ไม่ครบ');
+  }
+  if (!data.stock.meta || !/^\d{4}-\d{2}-\d{2}$/.test(txt(data.stock.meta.as_of))) throw new Error('ไม่มีวันอ้างอิงใน stock.meta.as_of');
+  if (data.catalog && !Array.isArray(data.catalog.items)) throw new Error('โครงสร้าง catalog ไม่ถูกต้อง');
+  return data;
+}
+async function fetchJson(url, options = {}) {
+  const response = await fetch(url, {cache:'no-store', ...options});
+  if (!response.ok) throw new Error('HTTP '+response.status);
+  return response.json();
+}
+// อ่านข้อมูลผ่าน Vercel API เท่านั้น โดยตั้งเวลาสูงสุด 8 วินาที
+async function fromApi() {
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), TIMEOUT_MS);
+  try {
+    const response = await fetch('/api/data', {cache:'no-store',headers:{Accept:'application/json'},signal:controller.signal});
+    if (response.status !== 200) throw new Error('HTTP '+response.status);
+    return validateData(await response.json());
+  } finally { clearTimeout(timeout); }
+}
+// หาก API ใช้ไม่ได้ ให้โหลด JSON จาก data/ เป็นข้อมูลสำรองเพื่อดูอย่างเดียว ห้ามขาย
+// รองรับ drugs.json ตามโจทย์ และ drugs_update.json ตามชุดไฟล์สำรองของ Dashboard เดิม
+async function fromFiles() {
+  // ค้นหาได้ทั้งโฟลเดอร์ data/ และไฟล์ที่วางข้าง pos.html
+  async function firstAvailable(paths) {
+    let failure;
+    for (const path of paths) {
+      try { return await fetchJson(path); }
+      catch (error) { failure = error; }
+    }
+    throw failure || new Error('ไม่พบไฟล์สำรอง');
+  }
+  const [drugs,stock,dispense_log] = await Promise.all([
+    firstAvailable(['./data/drugs.json','./data/drugs_update.json','./drugs.json','./drugs_update.json']),
+    firstAvailable(['./data/stock.json','./stock.json']),
+    firstAvailable(['./data/dispense-log.json','./dispense-log.json'])
+  ]);
+  return validateData({drugs,stock,dispense_log});
+}
+function buildInventory(data, isFile) {
+  const asOf = txt(data.stock.meta.as_of).slice(0,10);
+  const bySku = new Map();
+  for (const lot of data.stock.items) {
+    if (!usableStock(lot,asOf,isFile)) continue;
+    const sku = txt(lot.sku);
+    bySku.set(sku,(bySku.get(sku)||0)+Number(lot.qty_on_hand));
+  }
+  // catalog อาจไม่มี; หากมี ใช้สถานะ is_active เพื่อซ่อนยาที่ปิดใช้งาน
+  const catalogMap = data.catalog ? new Map(data.catalog.items.map(d => [txt(d.sku),d])) : null;
+  const activeDrugs = data.drugs.items.filter(d => {
+    const sku = txt(d.sku);
+    if (!(bySku.get(sku)>0)) return false;
+    const row = catalogMap && catalogMap.get(sku);
+    if (row && (row.is_active === false || row.is_active === 'false')) return false;
+    if (d.is_active === false || d.is_active === 'false') return false;
+    return true;
+  });
+  activeDrugs.sort((a,b) => txt(a.sku).localeCompare(txt(b.sku),'en'));
+  return {asOf,bySku,activeDrugs};
+}
+function showBanner(message,kind) {
+  $('source-banner').className = 'notice '+(kind||'');
+  $('source-banner').textContent = message;
+}
+function setSaleButton() {
+  $('sell-btn').disabled = state.busy || state.refreshing || state.source !== 'api' || !state.bySku.has($('sku').value);
+  $('sale-status').textContent = state.busy ? 'กำลังบันทึก' : state.refreshing ? 'กำลังปรับยอด' : state.source === 'api' ? 'พร้อมบันทึก' : 'ดูข้อมูลเท่านั้น';
+}
+function applyData(data,source) {
+  const inventory = buildInventory(data, source === 'file');
+  const chosen = $('sku').value;
+  state.source = source; state.asOf=inventory.asOf;
+  state.drugs=data.drugs.items;state.stock=data.stock.items;state.log=data.dispense_log.items;
+  state.available=inventory.activeDrugs;state.bySku=inventory.bySku;
+  $('as-of').textContent=state.asOf;
+  const sel = $('sku');
+  sel.replaceChildren(element('option','— เลือกรายการยา —'));
+  sel.firstChild.value='';
+  for(const drug of state.available){
+    const opt = element('option',txt(drug.sku)+' · '+txt(drug.generic_name)+' '+txt(drug.strength)+' ('+fmt(state.bySku.get(txt(drug.sku)))+')');
+    opt.value=txt(drug.sku);sel.append(opt);
+  }
+  sel.disabled = state.available.length === 0;
+  if (state.available.some(d => txt(d.sku) === chosen)) sel.value=chosen;
+  else if (state.available.length === 1) sel.value=txt(state.available[0].sku);
+  updateSelected();renderList();renderRecent();setSaleButton();
+  if(source === 'api') showBanner('● ข้อมูลจากระบบจริง · วันอ้างอิง '+state.asOf,'live');
+  else showBanner('⚠ ข้อมูลสำรองจากไฟล์ (ไม่ใช่ข้อมูลล่าสุด) · ปิดการบันทึกการจ่ายยา · วันอ้างอิง '+state.asOf,'warn');
+}
+async function loadData(options={}) {
+  if(state.refreshing) return false;
+  state.refreshing=true;setSaleButton();$('reload-btn').disabled=true;
+  try {
+    const data=await fromApi();applyData(data,'api');return true;
+  } catch(error) {
+    // หลังขายสำเร็จต้องไม่กลับไปใช้ไฟล์เก่าแทนยอดใหม่ แสดงผลเซิร์ฟเวอร์และล็อกการขายไว้
+    if(options.afterSale) {
+      state.source='stale';
+      showBanner('⚠ จ่ายยาแล้ว แต่โหลดข้อมูลล่าสุดไม่สำเร็จ กด “โหลดข้อมูลใหม่” ก่อนทำรายการต่อ','warn');
+      return false;
+    }
+    try {
+      const data=await fromFiles();applyData(data,'file');return false;
+    } catch(fileError) {
+      state.source='error';state.available=[];state.bySku=new Map();$('sku').disabled=true;
+      showBanner('ไม่สามารถโหลดข้อมูลได้ ทั้ง API และไฟล์สำรอง กรุณาตรวจสอบการเชื่อมต่อ','err');
+      $('drug-list').replaceChildren(element('p','ไม่สามารถอ่านรายการยาได้','empty'));
+      $('recent-body').replaceChildren(element('tr'));
+      return false;
+    }
+  } finally {state.refreshing=false;$('reload-btn').disabled=false;setSaleButton();}
+}
+function updateSelected(){
+  const sku=$('sku').value;
+  const drug=state.available.find(d=>txt(d.sku)===sku);
+  $('selected-name').textContent=drug ? txt(drug.sku)+' · '+txt(drug.generic_name)+' '+txt(drug.strength) : 'กรุณาเลือกยา';
+  $('selected-qty').textContent=drug ? fmt(state.bySku.get(sku)) : '—';
+  $('selected-reorder').textContent=drug ? 'จุดสั่งซื้อ '+fmt(Number(drug.reorder_level)||0) : '';
+  $('reorder-tag').hidden=!drug || !(state.bySku.get(sku)<Number(drug.reorder_level));
+  setSaleButton();renderList();
+}
+function renderList(){
+  const query=$('drug-search').value.trim().toLowerCase();
+  const items=state.available.filter(d=>(txt(d.sku)+' '+txt(d.generic_name)+' '+txt(d.strength)).toLowerCase().includes(query));
+  $('drug-count').textContent=items.length+' รายการ';
+  const container=$('drug-list');container.replaceChildren();
+  if(!items.length){container.append(element('p','ไม่พบรายการยาที่ตรงกับคำค้น','empty'));return;}
+  for(const d of items){
+    const btn=element('button',undefined,'drug-option');btn.type='button';
+    btn.setAttribute('aria-pressed',String($('sku').value===txt(d.sku)));
+    const lhs=element('span');lhs.append(element('span',txt(d.sku)+' · '+txt(d.generic_name),'name'));
+    lhs.append(element('span',txt(d.strength)+(state.bySku.get(txt(d.sku))<Number(d.reorder_level)?' · ต่ำกว่าจุดสั่งซื้อ':''),'desc'));
+    const qty=element('span',fmt(state.bySku.get(txt(d.sku))),'amount');
+    btn.append(lhs,qty);btn.addEventListener('click',()=>{$('sku').value=txt(d.sku);updateSelected();});
+    container.append(btn);
+  }
+}
+function renderRecent(){
+  const list=state.log.filter(d=>(d.type === 'dispense' || d.type === undefined || d.type === null))
+    .sort((a,b)=>txt(b.datetime).slice(0,16).localeCompare(txt(a.datetime).slice(0,16))||txt(b.dispense_id).localeCompare(txt(a.dispense_id),'en',{numeric:true})).slice(0,8);
+  const body=$('recent-body');body.replaceChildren();
+  if(!list.length){const tr=element('tr');const td=element('td','ยังไม่มีรายการจ่าย');td.colSpan=7;tr.append(td);body.append(tr);return;}
+  for(const item of list){
+    const tr=element('tr');
+    [item.dispense_id,txt(item.datetime).slice(0,16).replace('T',' '),item.sku,item.lot,fmt(item.qty),item.patient_code,item.pharmacist_code].forEach((val,i)=>{
+      const td=element('td',val);if(i===4)td.className='num';tr.append(td);
+    });body.append(tr);
+  }
+}
+function showResult(ok,title,message,lines,usableBefore,usableAfter){
+  const panel=$('result');panel.hidden=false;panel.className='result '+(ok?'good':'bad');
+  $('result-title').textContent=title;
+  const body=$('result-body');body.replaceChildren();
+  if(message)body.append(element('p',message));
+  if(ok){
+    const ul=element('ul');
+    for(const item of lines){ul.append(element('li','เลขที่ '+txt(item.dispense_id)+' · ล็อต '+txt(item.lot)+' · จำนวน '+fmt(item.qty)));}
+    body.append(ul,element('p','ยอดใช้ได้ก่อนจ่าย '+fmt(usableBefore)+' → หลังจ่าย '+fmt(usableAfter),'sum'));
+  }
+}
+// ส่งรายการไปให้ /api/dispense ตัดล็อตและตรวจยอดเอง (หน้าเว็บไม่เลือกล็อตและไม่ตัดยอด)
+$('sale-form').addEventListener('submit',async(e)=>{
+  e.preventDefault();
+  if(state.busy||state.refreshing||state.source!=='api')return;
+  const sku=$('sku').value;
+  const rawQty=$('qty').value.trim();
+  const qty=Number(rawQty);
+  const patient_code=$('patient').value.trim(),pharmacist_code=$('pharmacist').value.trim();
+  if(!state.bySku.has(sku)){showResult(false,'บันทึกไม่ได้','กรุณาเลือกรายการยา');return;}
+  if(!/^\d+$/.test(rawQty)||!Number.isSafeInteger(qty)||qty<1){showResult(false,'บันทึกไม่ได้','จำนวนต้องเป็นจำนวนเต็มตั้งแต่ 1 ขึ้นไป');return;}
+  if(!patient_code||!pharmacist_code){showResult(false,'บันทึกไม่ได้','กรุณากรอกรหัสผู้ป่วยและรหัสเภสัชกรให้ครบ');return;}
+  state.busy=true;setSaleButton();
+  try {
+    const response=await fetch('/api/dispense',{method:'POST',cache:'no-store',headers:{'Content-Type':'application/json'},body:JSON.stringify({sku,qty,patient_code,pharmacist_code})});
+    const data=await response.json().catch(()=>null);
+    if(!response.ok||!data||data.ok!==true){
+      showResult(false,'จ่ายยาไม่สำเร็จ',data&&typeof data.message==='string'?data.message:'ระบบตอบกลับผิดพลาด กรุณาลองใหม่');
+      return;
+    }
+    if(!Array.isArray(data.lines)||!Number.isFinite(Number(data.usable_before))||!Number.isFinite(Number(data.usable_after))){
+      showResult(false,'ตรวจสอบรายการ','เซิร์ฟเวอร์ตอบผลสำเร็จแต่รูปแบบข้อมูลไม่ครบ กรุณาตรวจสอบรายการจ่าย');
+      state.source='stale';showBanner('ผลตอบกลับไม่สมบูรณ์ กรุณาโหลดข้อมูลใหม่ก่อนขายต่อ','warn');
+      return;
+    }
+    showResult(true,'จ่ายแล้ว','บันทึกการจ่ายยาสำเร็จ',data.lines,data.usable_before,data.usable_after);
+    $('patient').value='';
+    // แสดงยอดก่อน–หลังจากคำตอบเซิร์ฟเวอร์ ห้ามคำนวณยอดใหม่ในเบราว์เซอร์
+    $('selected-qty').textContent=fmt(data.usable_after);
+    state.source='stale';setSaleButton();
+    await loadData({afterSale:true});
+  }catch(error){showResult(false,'จ่ายยาไม่สำเร็จ','เชื่อมต่อระบบไม่ได้ กรุณาตรวจสอบรายการจ่ายก่อนลองอีกครั้ง');}
+  finally{state.busy=false;setSaleButton();}
+});
+$('sku').addEventListener('change',updateSelected);
+$('drug-search').addEventListener('input',renderList);
+$('reload-btn').addEventListener('click',()=>loadData());
+loadData();
+</script>
+</body>
+</html>
